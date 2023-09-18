@@ -19,5 +19,6 @@ mkShell {
 
   packages = [
     python3Full
+    texlive.combined.scheme-full
   ];
 }
