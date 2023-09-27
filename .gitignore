@@ -1,3 +1,4 @@
 .envrc
 .direnv
 .venv
+project3/*.txt
