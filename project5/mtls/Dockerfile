@@ -22,4 +22,4 @@ RUN mkdir -p /etc/nginx/ssl/ && \
 RUN echo "yes" | ./easyrsa --days=365 build-client-full client nopass && \
     ./easyrsa export-p12 client nopass
 
-COPY default-mtls.conf /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/default.conf

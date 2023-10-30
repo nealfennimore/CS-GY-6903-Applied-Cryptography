@@ -4,7 +4,7 @@
 
 ```sh
 cd project5
-docker build -f Dockerfile-TLS -t nginx-tls  .
+docker build -f tls/Dockerfile -t nginx-tls ./tls
 docker run --rm -i -p 4443:443 nginx-tls
 ```
 
@@ -20,8 +20,8 @@ curl -vvv -k https://localhost:4443
 
 ```sh
 cd project5
-docker build -f Dockerfile-TLS -t nginx-tls  .
-docker run --rm -i -p 4443:443 nginx-tls
+docker build -f mtls/Dockerfile -t nginx-mtls ./mtls
+docker run --rm -i -p 4443:443 nginx-mtls
 ```
 
 ### Testing

@@ -10,4 +10,4 @@ RUN mkdir -p /etc/nginx/ssl/ && \
 
 RUN chown -R nginx:nginx /etc/nginx/ssl/
 
-COPY default-tls.conf /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
