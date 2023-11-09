@@ -31,10 +31,8 @@
     - Stop tcpdumo
     - Review the PCAP in Wireshark and the NGINX log to see how MTLS succeed ![mtls-success-log](mtls/mtls-success-log.png) ![mtls-success-wireshark](mtls/mtls-success-wireshark.png)
 3. On the Server
-    - Revoke the Client’s certificate
-        - ![client-revocation](client-revocation.png)
-    - Issue a new Client certificate
-        - ![new-client-cert](new-client-cert.png)
+    - Revoke the Client’s certificate ![client-revocation](client-revocation.png)
+    - Issue a new Client certificate ![new-client-cert](new-client-cert.png)
     - How do you inform the server that the Client’s old certificate should be rejected?
         - The nginx `ssl_crl` directive can be used for keeping track of revoked certificates after running the `./easyrsa gen-crl` command. In our code, the nginx directive would be under the https server scope `ssl_crl /EasyRSA-3.1.7/pki/crl.pem;`
 
