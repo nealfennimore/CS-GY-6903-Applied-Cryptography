@@ -54,14 +54,15 @@ The TLS pcap does not require the CRP because, in most cases, the client and the
 - What do you think would happen if you tried to use a client that was configured to only use RSA ciphers?
  
  If a client was configured to only use RSA ciphers, there could be a high possibility of it failing to connect to a server. The main reason is because as the client and server communicates during the handshake, the two sides would not be able to reach an agreement on the cipher suite to use if the server was not utilizing RSA. Cipher suites are used for:
-    - Key exchange algorithms to determine how keys are exchanged.
-        * Examples: RSA, Diffie-Hellman, or Elliptic-curve Diffie-Hellman
-    - Authentication/Digital Signature Algorithm to determine how client and server authentication will be deployed.
-        * Examples: RSA or Elliptic-curve Digital Signature Algorithm (ECDSA)
-    - Bulk encryption algorithms to encrypt the data.
-        * Examples: AES or CHACHA20
-    - Message Authentication Code (MAC) algorithms to determine how the data integrity checks will be carried out.
-        * Examples: Hash-based MAC (HMAC-SHA256) or Keccak-based MAC (KMAC)
+ 
+- Key exchange algorithms to determine how keys are exchanged.
+    * Examples: RSA, Diffie-Hellman, or Elliptic-curve Diffie-Hellman
+- Authentication/Digital Signature Algorithm to determine how client and server authentication will be deployed.
+   * Examples: RSA or Elliptic-curve Digital Signature Algorithm (ECDSA)
+- Bulk encryption algorithms to encrypt the data.
+    * Examples: AES or CHACHA20
+- Message Authentication Code (MAC) algorithms to determine how the data integrity checks will be carried out.
+  * Examples: Hash-based MAC (HMAC-SHA256) or Keccak-based MAC (KMAC)
 
  
   In the case where only the server only used elliptic curve algorithms, the client and server would try to decide if they could agree on a cipher to use, and if they could not come to an agreement, they would likely terminate the handshake, and show an error to the user.
