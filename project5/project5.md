@@ -44,8 +44,27 @@
 - How often should regenerate the CRL?
   - Every time a certificate is revoked
 - What differences do you notice in the TLS handshake during mTLS vs TLS?
+
+The main difference in a TLS handshake between mTLS & TLS is that mTLS has an additional handshake protocol – Certificate Request (see image below).
+This is the Certificate Request Protocol (CRP) and is used in mTLS to exchange certificate requests/responses between the client and server. Both the client and server must authenticate each other using their own digital certificates, and the CRP is the client’s request to retrieve the server’s certificate.
+The TLS pcap does not require the CRP because, in most cases, the client and the server already have the certificates to authenticate each other. The client is able to retrieve the server’s certificate from a Certificate Authority (CA) and the client can provide its certificate - from its certificate store - to the server. Although, if the client is unable to provide a certificate, then this is when the Certificate Request Protocol can be invoked.
+
+![Alt text](image.png)
+
 - What do you think would happen if you tried to use a client that was configured to only use RSA ciphers?
-  - In the case where only the server only used elliptic curve algorithms, the client and server would try to decide if they could agree on a cipher to use, and if they could not come to an agreement, they would likely terminate the handshake, and show an error to the user.
+ 
+ If a client was configured to only use RSA ciphers, there could be a high possibility of it failing to connect to a server. The main reason is because as the client and server communicates during the handshake, the two sides would not be able to reach an agreement on the cipher suite to use if the server was not utilizing RSA. Cipher suites are used for:
+    - Key exchange algorithms to determine how keys are exchanged.
+        * Examples: RSA, Diffie-Hellman, or Elliptic-curve Diffie-Hellman
+    - Authentication/Digital Signature Algorithm to determine how client and server authentication will be deployed.
+        * Examples: RSA or Elliptic-curve Digital Signature Algorithm (ECDSA)
+    - Bulk encryption algorithms to encrypt the data.
+        * Examples: AES or CHACHA20
+    - Message Authentication Code (MAC) algorithms to determine how the data integrity checks will be carried out.
+        * Examples: Hash-based MAC (HMAC-SHA256) or Keccak-based MAC (KMAC)
+
+ 
+  In the case where only the server only used elliptic curve algorithms, the client and server would try to decide if they could agree on a cipher to use, and if they could not come to an agreement, they would likely terminate the handshake, and show an error to the user.
 
 ## TLS Configs
 
