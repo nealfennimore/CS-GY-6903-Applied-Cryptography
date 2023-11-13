@@ -2,3 +2,4 @@
 .direnv
 .venv
 project3/*.txt
+__pycache__
