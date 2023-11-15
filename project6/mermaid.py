@@ -1,4 +1,7 @@
+from base64 import b64encode
 from typing import Any, Callable, List, Optional
+
+from IPython.core.display import Image, Markdown, display
 
 
 class Node:
@@ -6,6 +9,26 @@ class Node:
     right: Optional["Node"] = None
     parent: Optional["Node"] = None
     _value: Optional[str] = None
+
+
+class Output(str):
+    def to_markdown(self) -> Markdown:
+        return display(
+            Markdown(
+                f"""```mermaid
+{self}
+```"""
+            )
+        )
+
+    def to_url(self) -> str:
+        graphbytes = self.encode("utf8")
+        base64_bytes = b64encode(graphbytes)
+        base64_string = base64_bytes.decode("ascii")
+        return "https://mermaid.ink/img/" + base64_string
+
+    def to_image(self) -> Image:
+        return display(Image(url=self.to_url()))
 
 
 class Mermaid:
@@ -64,10 +87,10 @@ class Mermaid:
         paths = Mermaid.reduce_paths(paths)
         paths = "\n".join(paths)
 
-        return f"""
-```mermaid
+        return Output(
+            f"""
 flowchart TD
 {classDefs}
 {paths}
-```
 """
+        )
