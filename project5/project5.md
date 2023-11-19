@@ -12,7 +12,7 @@
     - Start tcpdump
     - Use cURL to connect to the Server
     - Stop tcpdump
-    - Review the PCAP in Wireshark to identify the TLS handshake and make sure the right protocol and certificates were used ![tls-success-log](tls/tls-success-log.png) ![tls-success-wireshark](tls/tls-success-wireshark.png)
+    - Review the PCAP in Wireshark to identify the TLS handshake and make sure the right protocol and certificates were used ![tls-cert](tls/tls-cert.png) ![tls-success-log](tls/tls-success-log.png)
 
 ## mTLS
 
@@ -29,7 +29,7 @@
     - Start tcpdump
     - Use cURL + certificates issued in 6(b) to access the server
     - Stop tcpdumo
-    - Review the PCAP in Wireshark and the NGINX log to see how MTLS succeed ![mtls-success-log](mtls/mtls-success-log.png) ![mtls-success-wireshark](mtls/mtls-success-wireshark.png)
+    - Review the PCAP in Wireshark and the NGINX log to see how MTLS succeed ![mtls-cert](mtls/mtls-cert.png) ![mtls-success-log](mtls/mtls-success-log.png)
 3. On the Server
     - Revoke the Client’s certificate ![client-revocation](client-revocation.png)
     - Issue a new Client certificate ![new-client-cert](new-client-cert.png)
@@ -40,7 +40,7 @@
 
 - How should you protect the PKI you created on the Server?
 
-To effectively protect the PKI on the server, we should secure the Certificate Authority (CA) and implement strict access controls. Also, we should utilize robust cryptographic practices with strong algorithms and key lengths, and store private keys in secure hardware like Hardware Security Modules (HSMs) that meet compliance. All related systems should be updated and patched on a regular basis and detailed logs should be maintained. Threat modeling, risk assessment, and security assessment should be conducted and updated regularly as well. Stringent certificate lifecycle management with policies for renewal and revocation should be implemented, and all staff managing the PKI should be well-trained in security best practices. Finally, we should establish a comprehensive backup and disaster recovery plan to mitigate data loss, and an incident response plan to respond to security incidentswha and/or breaches. To enhance security, penetration testing is also recommended. 
+To effectively protect the PKI on the server, we should secure the Certificate Authority (CA) and implement strict access controls. Also, we should utilize robust cryptographic practices with strong algorithms and key lengths, and store private keys in secure hardware like Hardware Security Modules (HSMs) that meet compliance. All related systems should be updated and patched on a regular basis and detailed logs should be maintained. Threat modeling, risk assessment, and security assessment should be conducted and updated regularly as well. Stringent certificate lifecycle management with policies for renewal and revocation should be implemented, and all staff managing the PKI should be well-trained in security best practices. Finally, we should establish a comprehensive backup and disaster recovery plan to mitigate data loss, and an incident response plan to respond to security incidentswha and/or breaches. To enhance security, penetration testing is also recommended.
 
 - How often should regenerate the CRL?
 
@@ -55,19 +55,18 @@ The TLS pcap does not require the CRP because, in most cases, the client and the
 ![Alt text](image.png)
 
 - What do you think would happen if you tried to use a client that was configured to only use RSA ciphers?
- 
- If a client was configured to only use RSA ciphers, there could be a high possibility of it failing to connect to a server. The main reason is because as the client and server communicates during the handshake, the two sides would not be able to reach an agreement on the cipher suite to use if the server was not utilizing RSA. Cipher suites are used for:
- 
-- Key exchange algorithms to determine how keys are exchanged.
-    * Examples: RSA, Diffie-Hellman, or Elliptic-curve Diffie-Hellman
-- Authentication/Digital Signature Algorithm to determine how client and server authentication will be deployed.
-   * Examples: RSA or Elliptic-curve Digital Signature Algorithm (ECDSA)
-- Bulk encryption algorithms to encrypt the data.
-    * Examples: AES or CHACHA20
-- Message Authentication Code (MAC) algorithms to determine how the data integrity checks will be carried out.
-  * Examples: Hash-based MAC (HMAC-SHA256) or Keccak-based MAC (KMAC)
 
- 
+ If a client was configured to only use RSA ciphers, there could be a high possibility of it failing to connect to a server. The main reason is because as the client and server communicates during the handshake, the two sides would not be able to reach an agreement on the cipher suite to use if the server was not utilizing RSA. Cipher suites are used for:
+
+- Key exchange algorithms to determine how keys are exchanged.
+  - Examples: RSA, Diffie-Hellman, or Elliptic-curve Diffie-Hellman
+- Authentication/Digital Signature Algorithm to determine how client and server authentication will be deployed.
+  - Examples: RSA or Elliptic-curve Digital Signature Algorithm (ECDSA)
+- Bulk encryption algorithms to encrypt the data.
+  - Examples: AES or CHACHA20
+- Message Authentication Code (MAC) algorithms to determine how the data integrity checks will be carried out.
+  - Examples: Hash-based MAC (HMAC-SHA256) or Keccak-based MAC (KMAC)
+
   In the case where only the server only used elliptic curve algorithms, the client and server would try to decide if they could agree on a cipher to use, and if they could not come to an agreement, they would likely terminate the handshake, and show an error to the user.
 
 ## TLS Configs
