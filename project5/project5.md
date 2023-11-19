@@ -1,36 +1,42 @@
 
 ## TLS
 
-1. On the Server
+3. On the Server
     - Create a website
         - See [TLS Docker](#tls-docker)
     - Configure https using self signed ECC certificates
         - See [TLS Nginx](#tls-nginx-config)
     - Configure your server to only answer to TLSv1.2 or TLSv1.3
         - See [TLS Nginx](#tls-nginx-config)
-2. On the client
+4. On the client
     - Start tcpdump
     - Use cURL to connect to the Server
+        - `curl -k https://localhost:4443`
     - Stop tcpdump
     - Review the PCAP in Wireshark to identify the TLS handshake and make sure the right protocol and certificates were used ![tls-cert](tls/tls-cert.png) ![tls-success-log](tls/tls-success-log.png)
+        - Since we force the connection to ue TLSv1.2, we are able to see the unencrypted certificate exchange
 
 ## mTLS
 
-1. On the Server
+5. On the Server (20)
     - Create a CA using easy-rsa: See [mTLS Docker](#mtls-docker)
         - Use ECC instead of RSA: See [mTLS EasyRSA Vars](#mtls-easyrsa-vars)
     - Create certificates for the Server and the Client: See [mTLS Docker](#mtls-docker)
     - Configure the server to only send the webpage if the Client is validated using mTLS: See [mTLS Nginx](#mtls-nginx)
-2. On the Client
+6. On the Client (20)
     - Start tcpdump
     - Use cURL to try to connect to the Server
+        - `curl -k https://localhost:4443`
     - Stop tcpdump
     - Review the PCAP in Wireshark and the NGINX log to see how MTLS failed ![mtls-failure-log](mtls/mtls-failure-log.png) ![mtls-failure-wireshark](mtls/mtls-failure-wireshark.png)
     - Start tcpdump
     - Use cURL + certificates issued in 6(b) to access the server
+        - `curl -k --cert-type P12 --cert /tmp/client.p12:'' https://localhost:4443`
     - Stop tcpdumo
     - Review the PCAP in Wireshark and the NGINX log to see how MTLS succeed ![mtls-cert](mtls/mtls-cert.png) ![mtls-success-log](mtls/mtls-success-log.png)
-3. On the Server
+        - Since nginx handles the certificate validation, but does not provide a default option for what to do with said validation, we give the option for the nginx server to send a 403 response when the certificate validation fails. The server and the client both need to exchange certificates. We can see this with the addition of the `Certificate Verify` step when we send a client certificate to server (versus connecting to the server without a client cert) ![mtls-client-cert-exchange](mtls/mtls-client-cert-exchange.png)
+
+7. On the Server
     - Revoke the Client’s certificate ![client-revocation](client-revocation.png)
     - Issue a new Client certificate ![new-client-cert](new-client-cert.png)
     - How do you inform the server that the Client’s old certificate should be rejected?
