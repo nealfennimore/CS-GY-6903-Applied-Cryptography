@@ -32,7 +32,7 @@
     - Start tcpdump
     - Use cURL + certificates issued in 6(b) to access the server
         - `curl -k --cert-type P12 --cert /tmp/client.p12:'' https://localhost:4443`
-    - Stop tcpdumo
+    - Stop tcpdump
     - Review the PCAP in Wireshark and the NGINX log to see how MTLS succeed ![mtls-cert](mtls/mtls-cert.png) ![mtls-success-log](mtls/mtls-success-log.png)
         - Since nginx handles the certificate validation, but does not provide a default option for what to do with said validation, we give the option for the nginx server to send a 403 response when the certificate validation fails. The server and the client both need to exchange certificates. We can see this with the addition of the `Certificate Verify` step when we send a client certificate to server (versus connecting to the server without a client cert) ![mtls-client-cert-exchange](mtls/mtls-client-cert-exchange.png)
 
