@@ -39,6 +39,8 @@
 ## Discussion
 
 - How should you protect the PKI you created on the Server?
+To effectively protect the PKI on the server, we should secure the Certificate Authority (CA) and implement strict access controls. Also, we should utilize robust cryptographic practices with strong algorithms and key lengths, and store private keys in secure hardware like Hardware Security Modules (HSMs) that meet compliance. All related systems should be updated and patched on a regular basis and detailed logs should be maintained. Threat modeling, risk assessment, and security assessment should be conducted and updated regularly as well. Stringent certificate lifecycle management with policies for renewal and revocation should be implemented, and all staff managing the PKI should be well-trained in security best practices. Finally, we should establish a comprehensive backup and disaster recovery plan to mitigate data loss, and an incident response plan to respond to security incidentswha and/or breaches. To enhance security, penetration testing is also recommended. 
+
 - How often should regenerate the CRL?
   - Every time a certificate is revoked
 - What differences do you notice in the TLS handshake during mTLS vs TLS?
