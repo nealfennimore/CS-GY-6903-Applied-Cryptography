@@ -1,14 +1,19 @@
+from abc import ABC, abstractmethod
 from base64 import b64encode
 from typing import Any, Callable, List, Optional
 
 from IPython.core.display import Image, Markdown, display
 
 
-class Node:
+class Node(ABC):
     left: Optional["Node"] = None
     right: Optional["Node"] = None
     parent: Optional["Node"] = None
     _value: Optional[str] = None
+
+    @abstractmethod
+    def value(self) -> Any:
+        pass
 
 
 class Output(str):
@@ -29,6 +34,11 @@ class Output(str):
 
     def to_image(self) -> Image:
         return display(Image(url=self.to_url()))
+
+
+def formatter(node: Node, prefix: str) -> str:
+    original_value = f" '{node._value}'" if node._value is not None else "B"
+    return f"{prefix}[{node.value}{original_value}]"
 
 
 class Mermaid:
@@ -77,7 +87,7 @@ class Mermaid:
     @staticmethod
     def render_binary_search_tree(
         node: Node,
-        formatter=lambda node, prefix: f"{prefix}[{node.value}]",
+        formatter=formatter,
         classDefs: str = "",
     ):
         assert node is not None

@@ -1,1 +1,2 @@
 py-enigma==0.1
+pycryptodome==3.19.0
